@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en"><head itemscope=""><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="shortcut icon" href="http://logictools.org/logo.png">
+
+<title>Prover9 & Mace4</title>
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="./ProverMace_files/bootstrap.min.css">
+
+<!-- Custom styles for this template -->
+<link href="./ProverMace_files/wdb.css" rel="stylesheet">
+<script async="" src="./ProverMace_files/analytics.js"></script>
+
+<script src="./ProverMace_files/prover9.js"></script>
+<script src="./ProverMace_files/mace4.js"></script>
+
+</head>
+
+<body>
+
+<div id="fb-root"></div>
+
+<div class="navbar navbar-inverse navbar-static-top" style="background-color: #333443;">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="ProverMace.html">Prover9 And Mace4</a>
+    </div>
+  </div>
+</div>
+
+<!-- content after titlebar -->
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 wblock wblock1">
+    
+    <!--------------------------- --->
+        
+<h2>Solve a propositional formula:  
+ <button type="button" class="btn btn-default" onclick="gid(&#39;syntax&#39;).style.display=&#39;block&#39;; document.location=&#39;#syntax&#39;; " style=" 
+         width: 70px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         background-color: #cccccc; color: #337ab7; margin-left: 15px;">syntax</button>
+  
+ <button type="button" class="btn btn-default" onclick="gid(&#39;example&#39;).style.display=&#39;block&#39;; document.location=&#39;#example&#39;; " style=" 
+         width: 70px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         background-color: #cccccc; color: #337ab7; margin-left: 15px;">example</button>
+</h2>
+
+
+  <form class="form-inline">
+    <div class="wblock">
+    <textarea class="form-control" id="propinput" style="height: 200px; width:100%; margin-bottom: 20px;">(a -&gt; b) &amp; a &amp; -b
+     </textarea>
+    </div>
+    <p>
+    </p><div style="display: inline-block;">
+        
+    <!-------- solve the formula ----------- -->
+    <div>
+      <button class="btn btn-small btn-primary" style="width: 70px;" onclick="proplog_ui.solve(gid(&#39;propinput&#39;).value,gid(&#39;algorithm_select&#39;).value,gid(&#39;trace_method&#39;).value); 
+         return false;">Solve</button>
+      &nbsp; using &nbsp;
+      <select class="form-control" style="width: 180px;" id="algorithm_select">
+        <option value="dpll_better">dpll: better</option>
+        <option value="dpll_old">dpll: old</option>
+        <option value="dpll_naive">dpll: naive</option>
+        <option value="truth_table_better">truth table: better</option>
+        <option value="truth_table_naive">truth table: naive</option>
+        <option value="resolution_better">resolution: better</option>
+        <option value="resolution_naive">resolution: naive</option>
+      </select>
+      &nbsp; showing &nbsp;
+      <select class="form-control" style="width: 150px;" id="trace_method">
+        <option value="none">no trace</option>
+        <option value="html">html trace</option>
+        <option value="console">console trace</option>      
+      </select>        
+      
+    </div>  
+    <p>
+    
+    <!-------- build a table or form ----------- -->
+    </p><div>
+      <button class="btn btn-small btn-primary" style="width: 70px;" onclick="proplog_ui.build(gid(&#39;propinput&#39;).value,gid(&#39;build_select&#39;).value); 
+        return false;">Build</button> &nbsp; a &nbsp;
+      <select class="form-control" style="width: 180px;" id="build_select">      
+        <option value="truth_table">truth table</option>
+        <option value="cnf">clause normal form</option>      
+        <option value="parse_tree">parse tree</option>
+      </select>          
+    </div>  
+         
+    </div>
+
+  </form>
+
+    
+<h2>Result</h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 wblock wblock1">
+        <div class="wiblock">  
+          <div id="result" style="padding: 20px;"></div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<h2>Process in milliseconds</h2>   
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 wblock wblock1">
+      <div class="wiblock wiblock_full">  
+        <div id="process" style="padding: 20px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Terminal</h2>
+<div>
+	<textarea id="output" rows="8"></textarea>
+</div>
+
+<!-- syntax description is initially hidden -->
+
+<div id="syntax" style="display: none">
+<h2>Syntax</h2> 
+
+Use either a conventional formula syntax like
+
+<pre>
+formulas(sos).
+
+	all x (p(x) -&gt; (q(x) | r(x))).
+	all x (q(x) -&gt; r(x)).
+
+end_of_list.
+
+formulas(goals).
+
+	all x (p(x) -&gt; r(x)).
+
+end_of_list.
+</pre>
+
+<p>
+For conventional formula syntax:
+</p><ul>
+<li>Negation symbols are <b>- </b> </br> e.g.: <b>(-p)</b></li>
+<li>Conjunction symbols are <b>& </b> </br> e.g.: <b>(p & q & r)</b></li>
+<li>Disjunction symbols are <b>| </b> </br> e.g.: <b>(p | q)</b></li> 
+<li>Implication symbols are <b>-&gt; </b> </br> e.g.: <b>(p -&gt; q)</b></li>
+<li>Backward implication symbols are <b>&lt;- </b> </br> e.g.: <b>(p &lt;- q)</b></li> 
+<li>Equivalence symbols are <b>&lt;-&gt;</b></br>e.g.: <b>(p &lt;-&gt; q)</b></li> 
+<li>
+	Universal quantification <b>all</b>	</br> e.g.: <b>(all x all y p(x,y))</b>
+</li>
+<li>
+	Existential quantification <b>exists</b> </br> e.g.: <b>(exists x exists y p(x,y)) </b>
+</li>
+</ul>
+
+<p>
+	<b>Symbols With Meaning</b></br>
+	Several symbols have built-in meaning. These are the equality symbols 
+	(=, !=)
+	and logic connectives (-, |, &, ->, <-, <->, all, exists). 
+	These symbols can be changed as described in the section Redeclaring 
+	Built-in Symbols. 
+	(Parentheses, comma, period, and the list construction symbols cannot be redeclared.)
+</p>
+
+<p>
+	<b>Clauses</b></br>
+	The disjunction (OR) symbol is |, and the negation (NOT) symbol is -. 
+	The disjunction symbol has higher precedence than the equality symbol, 
+	so equations in clauses do not need parentheses. 
+	Every clause ends with a period. Examples of clauses follow 
+	(Prover9 adds some extra space when printing clauses).
+</p>
+
+<pre>
+formulas(sos).
+   	p|-q|r.
+   	a=b|c!=d.
+   	f(x)!=f(y)|x=y.
+end_of_list.
+</pre>
+<p>
+	<I>
+		For Prover9 formulas, each quantified variable must have its own 
+		quantifier; Otter allows quantifiers to be omitted in a sequence of
+		quantified variables with the same quantifier. For example, 
+		Otter allows (all x y z p(x,y,z)), and Prover9 requires 
+		(all x all y all z p(x,y,z)).
+	</I>
+</p>
+
+
+
+<a href="ProverMace.html#" onclick="gid(&#39;syntax&#39;).style.display=&#39;none&#39;;">hide syntax</a>
+</div>
+
+
+<!-- example description is initially hidden -->
+
+<div id="example" style="display: none">
+<h2>Example</h2> 
+
+<b>Examples with Pover9</b></br>
+Prover9 can find proof of any provable statement
+of the first order or in propositional logic </br></br>
+example in Propositional Logic 
+<pre>
+formulas(sos).
+
+	a -> b.
+	b -> a.
+
+end_of_list.
+
+formulas(goals).
+
+	a <-> b.
+
+end_of_list.
+</pre>
+
+example in First-Order Logic
+<pre>
+formulas(sos).
+
+	all x (p(x) -&gt; (q(x) | r(x))).
+	all x (q(x) -&gt; r(x)).
+
+end_of_list.
+
+formulas(goals).
+
+	all x (p(x) -&gt; r(x)).
+
+end_of_list.
+</pre>
+
+<b>Examples with Mac4</b></br>
+Mace4 can find a finite counterexample, if it exists, to any
+which first order statement or propositional logic </br></br>
+examples in Propositional Logic 
+<pre>
+formulas(sos).
+	
+	(p & q) | (r & q).
+
+end_of_list.
+
+formulas(goals).
+
+	(p & r).
+
+end_of_list.
+</pre>
+<pre>
+formulas(sos).
+
+	p -> -q | r.
+	q -> p & -r.
+
+end_of_list.
+
+formulas(goals).
+
+	q.
+
+end_of_list.
+</pre>
+
+example in First-Order Logic
+<pre>
+formulas(sos).
+
+	all x (p(x) -> (q(x) | r(x))).
+
+end_of_list.
+
+formulas(goals).
+
+	all x (r(x) -> p(x)).
+
+end_of_list.
+</pre>
+
+
+
+
+<a href="ProverMace.html#" onclick="gid(&#39;example&#39;).style.display=&#39;none&#39;;">hide example</a>
+</div>
+
+    
+    <!-------------------------- --->
+    </div>
+  </div>
+</div>
+
+<!-- footer -->
+
+<div class="ofooter">  
+  <div class="col-md-12 container ifooter">
+  </div>  
+</div> 
+
+<!-- at-end-scripts -->
+
+<script>
+// instead of jquery
+
+function gid(x) { return document.getElementById(x); }
+
+// reading a file
+
+function handleFileSelect(evt) {
+  var files = evt.target.files; 
+  for (var i = 0, f; f = files[i]; i++) {
+    var reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) { gid('propinput').value=e.target.result; };
+    })(f);
+    reader.readAsText(f);
+  }
+}
+
+gid('files').addEventListener('change', handleFileSelect, false);
+</script>
+
+
+<!-- ui with bootstrap 
+<script src="./ProverMace_files/jquery.min.js"></script>
+<script src="./ProverMace_files/bootstrap.min.js"></script>
+-->
+
+<!--	Solver code -->
+<script src="./ProverMace_files/proplog_min.js"></script>
+
+
+<!--	Use Prover9 or Mace4 -->
+<script src="./ProverMace_files/prover9.js"></script>
+<script src="./ProverMace_files/mace4.js"></script>
+<script src="./ProverMace_files/prover9.wasm"></script>
+<script src="./ProverMace_files/mace4.wasm"></script> 
+  
+<!-- Add new element JavaScript -->
+<script type="text/javascript">
+      var statusElement = document.getElementById('status');
+      var progressElement = document.getElementById('progress');
+      var spinnerElement = document.getElementById('spinner');
+
+      var Module = {
+        preRun: [],
+        postRun: [],
+        print: (function() {
+          var element = document.getElementById('output');
+          if (element) element.value = ''; // clear browser cache
+          return function(text) {
+            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+            // These replacements are necessary if you render to raw HTML
+            //text = text.replace(/&/g, "&amp;");
+            //text = text.replace(/</g, "&lt;");
+            //text = text.replace(/>/g, "&gt;");
+            //text = text.replace('\n', '<br>', 'g');
+            console.log(text);
+            if (element) {
+              element.value += text + "\n";
+              element.scrollTop = element.scrollHeight; // focus on bottom
+            }
+          };
+        })(),
+        printErr: function(text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+          console.error(text);
+        },
+        canvas: (function() {
+          var canvas = document.getElementById('canvas');
+
+          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+          // application robust, you may want to override this behavior before shipping!
+          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+          canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+
+          return canvas;
+        })(),
+        setStatus: function(text) {
+          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+          if (text === Module.setStatus.last.text) return;
+          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+          var now = Date.now();
+          if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
+          Module.setStatus.last.time = now;
+          Module.setStatus.last.text = text;
+          if (m) {
+            text = m[1];
+            progressElement.value = parseInt(m[2])*100;
+            progressElement.max = parseInt(m[4])*100;
+            progressElement.hidden = false;
+            spinnerElement.hidden = false;
+          } else {
+            progressElement.value = null;
+            progressElement.max = null;
+            progressElement.hidden = true;
+            if (!text) spinnerElement.style.display = 'none';
+          }
+          statusElement.innerHTML = text;
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        }
+      };
+      Module.setStatus('Downloading...');
+      window.onerror = function(event) {
+        // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
+        Module.setStatus('Exception thrown, see JavaScript console');
+        spinnerElement.style.display = 'none';
+        Module.setStatus = function(text) {
+          if (text) Module.printErr('[post-exception status] ' + text);
+        };
+      };
+</script>
+<script async="" type="text/javascript" src="prover9.js"></script>
+<script async="" type="text/javascript" src="mace4.js"></script>
+<!-- End Add new element JavaScript -->
+
+</body></html>
