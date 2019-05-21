@@ -294,6 +294,19 @@ formulas(goals).
 
 end_of_list.
 </pre>
+<pre>
+formulas(sos).
+
+  all x ((all y F(x,y)) -> G(x)).
+
+end_of_list.
+
+formulas(goals).
+
+  all x all y (F(x,y) -> G(x)).
+
+end_of_list.
+</pre>
 
 
 
