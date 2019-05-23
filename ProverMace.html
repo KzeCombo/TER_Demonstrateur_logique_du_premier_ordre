@@ -3,7 +3,7 @@
 
 <link rel="shortcut icon" href="http://logictools.org/logo.png">
 
-<title>Prover9 & Mace4</title>
+<title>Mace4 & Prover9</title>
 <!-- Bootstrap core CSS -->
 <link rel="stylesheet" href="./ProverMace_files/bootstrap.min.css">
 
@@ -11,8 +11,10 @@
 <link href="./ProverMace_files/wdb.css" rel="stylesheet">
 <script async="" src="./ProverMace_files/analytics.js"></script>
 
-<script src="./ProverMace_files/prover9.js"></script>
-<script src="./ProverMace_files/mace4.js"></script>
+<script async="" type="text/javascript" src="./ProverMace_files/prover9.js"></script>
+<script async="" type="text/javascript" src="./ProverMace_files/mace4.js"></script>
+<script async="" type="text/javascript" src="./ProverMace_files/prover9.wasm"></script>
+<script async="" type="text/javascript" src="./ProverMace_files/mace4.wasm"></script>
 
 </head>
 
@@ -23,7 +25,7 @@
 <div class="navbar navbar-inverse navbar-static-top" style="background-color: #333443;">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="ProverMace.html">Prover9 And Mace4</a>
+      <a class="navbar-brand" href="ProverMace.html">Mace4 and Prover9</a>
     </div>
   </div>
 </div>
@@ -43,10 +45,15 @@
          line-height: 1.42; border-radius: 15px; 
          background-color: #cccccc; color: #337ab7; margin-left: 15px;">syntax</button>
   
- <button type="button" class="btn btn-default" onclick="gid(&#39;example&#39;).style.display=&#39;block&#39;; document.location=&#39;#example&#39;; " style=" 
-         width: 70px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+ <button type="button" class="btn btn-default" onclick="gid(&#39;examplemace&#39;).style.display=&#39;block&#39;; document.location=&#39;#examplemace&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
          line-height: 1.42; border-radius: 15px; 
-         background-color: #cccccc; color: #337ab7; margin-left: 15px;">example</button>
+         background-color: #cccccc; color: #337ab7; margin-left: 15px;">mace4 examples</button>
+
+ <button type="button" class="btn btn-default" onclick="gid(&#39;exampleprover&#39;).style.display=&#39;block&#39;; document.location=&#39;#exampleprover&#39;; " style=" 
+         width: 110px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         background-color: #cccccc; color: #337ab7; margin-left: 15px;">prover9 examples</button>
 </h2>
 
 
@@ -58,6 +65,13 @@
     <p>
     </p><div style="display: inline-block;">
         
+    <!-------- solve the formula with Prover9 or Mace4  ----------- -->
+    <div>
+      <button class="btn btn-small btn-primary" style="width: 70px;" onclick="main()">Mace4</button>
+    	<button class="btn btn-small btn-primary" style="width: 70px;" onclick="run()">Prover9</button>
+    </div>
+    </br>
+
     <!-------- solve the formula ----------- -->
     <div>
       <button class="btn btn-small btn-primary" style="width: 70px;" onclick="proplog_ui.solve(gid(&#39;propinput&#39;).value,gid(&#39;algorithm_select&#39;).value,gid(&#39;trace_method&#39;).value); 
@@ -210,10 +224,10 @@ end_of_list.
 
 <!-- example description is initially hidden -->
 
-<div id="example" style="display: none">
-<h2>Example</h2> 
+<div id="exampleprover" style="display: none">
 
-<b>Examples with Pover9</b></br>
+<h2>Examples with Prover9</h2>
+
 Prover9 can find proof of any provable statement
 of the first order or in propositional logic </br></br>
 example in Propositional Logic 
@@ -232,6 +246,48 @@ formulas(goals).
 end_of_list.
 </pre>
 
+
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatp1&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatp1&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
+
+<div id="resultatp1" style="display: none">
+  <textarea id="output" rows="8">
+
+    ============================== SEARCH ================================
+
+    Goal is to show that a <-> b is a logical consequence of a -> b and 
+    b -> a
+
+    ======================================================================
+        
+    ============================== PROOF =================================
+
+    % Proof 1 at 1.00 (+ 3.00) seconds.
+    % Length of proof is 10.
+    % Level of proof is 4.
+    % Maximum clause weight is 2.000.
+    % Given clauses 3.
+
+    1 a -> b # label(non_clause).  [assumption].
+    2 b -> a # label(non_clause).  [assumption].
+    3 a <-> b # label(non_clause) # label(goal).  [goal].
+    4 -a | b.  [clausify(1)].
+    5 -b | a.  [clausify(2)].
+    6 a | b.  [deny(3)].
+    7 -a | -b.  [deny(3)].
+    8 a.  [resolve(6,b,5,a),merge(b)].
+    9 -b.  [back_unit_del(7),unit_del(a,8)].
+    10 $F.  [back_unit_del(4),unit_del(a,8),unit_del(b,9)].
+
+    ============================== end of proof ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatp1" onclick="gid(&#39;resultatp1&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+
+
 example in First-Order Logic
 <pre>
 formulas(sos).
@@ -248,7 +304,56 @@ formulas(goals).
 end_of_list.
 </pre>
 
-<b>Examples with Mac4</b></br>
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatp2&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatp2&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
+
+<div id="resultatp2" style="display: none">
+  <textarea id="output" rows="8">
+
+    ============================== SEARCH ================================
+
+    Goal is to show that all x (p(x) -> r(x)) is a logical consequence of 
+    all x (p(x) -> (q(x) | r(x))) and all x (q(x) -> r(x))
+    
+
+    ======================================================================
+        
+    ============================== PROOF =================================
+
+    % Proof 1 at 1.00 (+ 3.00) seconds.
+    % Length of proof is 10.
+    % Level of proof is 4.
+    % Maximum clause weight is 2.000.
+    % Given clauses 0.
+
+    1 (all x (p(x) -> q(x) | r(x))) # label(non_clause).  [assumption].
+    2 (all x (q(x) -> r(x))) # label(non_clause).  [assumption].
+    3 (all x (p(x) -> r(x))) # label(non_clause) # label(goal).  [goal].
+    4 p(c1).  [deny(3)].
+    5 -p(x) | q(x) | r(x).  [clausify(1)].
+    6 q(c1) | r(c1).  [resolve(4,a,5,a)].
+    7 -q(x) | r(x).  [clausify(2)].
+    8 -r(c1).  [deny(3)].
+    9 r(c1) | r(c1).  [resolve(6,a,7,a)].
+    10 $F.  [copy(9),merge(b),unit_del(a,8)].
+
+    ============================== end of proof ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatp2" onclick="gid(&#39;resultatp2&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+</br>
+
+<a href="ProverMace.html#" onclick="gid(&#39;exampleprover&#39;).style.display=&#39;none&#39;;">hide example</a>
+</div>
+
+
+<div id="examplemace" style="display: none">
+
+<h2>Examples with Mac4</h2>
+
 Mace4 can find a finite counterexample, if it exists, to any
 which first order statement or propositional logic </br></br>
 examples in Propositional Logic 
@@ -265,6 +370,40 @@ formulas(goals).
 
 end_of_list.
 </pre>
+
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatm1&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatm1&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
+
+<div id="resultatm1" style="display: none">
+  <textarea id="output" rows="8">
+
+    ============================== SEARCH ================================
+
+     Goal is to find a counter-model of (p & q) | (r & q) |= (p & r)
+
+    ======================================================================
+        
+    ============================== DOMAIN SIZE 2 =========================
+
+    ============================== MODEL =================================
+
+    interpretation( 2, [number=1, seconds=1], [
+
+            relation(p, [ 0 ]),
+
+            relation(q, [ 1 ]),
+
+            relation(r, [ 1 ])
+    ]).
+
+    ============================== end of model ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatm1" onclick="gid(&#39;resultatm1&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+
 <pre>
 formulas(sos).
 
@@ -280,7 +419,41 @@ formulas(goals).
 end_of_list.
 </pre>
 
-example in First-Order Logic
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatm2&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatm2&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
+
+<div id="resultatm2" style="display: none">
+  <textarea id="output" rows="8">
+
+    ============================== SEARCH ================================
+
+     Goal is to find a counter-model of (p -> -q | r) & (q -> p & -r) |= q
+
+    ======================================================================
+        
+    ============================== DOMAIN SIZE 2 =========================
+
+    ============================== MODEL =================================
+
+    interpretation( 2, [number=1, seconds=1], [
+
+            relation(p, [ 0 ]),
+
+            relation(q, [ 0 ]),
+
+            relation(r, [ 0 ])
+    ]).
+
+    ============================== end of model ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatm2" onclick="gid(&#39;resultatm2&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+</br>
+
+examples in First-Order Logic
 <pre>
 formulas(sos).
 
@@ -294,6 +467,43 @@ formulas(goals).
 
 end_of_list.
 </pre>
+
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatm3&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatm3&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
+
+<div id="resultatm3" style="display: none">
+  <textarea id="output" rows="8">
+
+    ============================== SEARCH ================================
+
+     Goal is to find a counter-model of 
+     all x (p(x) -> (q(x) | r(x))) |= all x (r(x) -> p(x))
+
+    ======================================================================
+        
+    ============================== DOMAIN SIZE 2 =========================
+
+    ============================== MODEL =================================
+
+    interpretation( 2, [number=1, seconds=1], [
+
+            function(c1, [ 0 ]),
+
+            relation(p(_), [ 0, 0 ]),
+
+            relation(q(_), [ 0, 0 ]),
+
+            relation(r(_), [ 1, 0 ])
+    ]).
+
+    ============================== end of model ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatm3" onclick="gid(&#39;resultatm3&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+
 <pre>
 formulas(sos).
 
@@ -308,10 +518,48 @@ formulas(goals).
 end_of_list.
 </pre>
 
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatm4&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatm4&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
 
+<div id="resultatm4" style="display: none">
+  <textarea id="output" rows="8">
 
+    ============================== SEARCH ================================
 
-<a href="ProverMace.html#" onclick="gid(&#39;example&#39;).style.display=&#39;none&#39;;">hide example</a>
+     Goal is to find a counter-model of 
+     all x ((all y F(x,y)) -> G(x)) |= all x all y (F(x,y) -> G(x))
+
+    ======================================================================
+        
+    ============================== DOMAIN SIZE 2 =========================
+
+    ============================== MODEL =================================
+
+    interpretation( 2, [number=1, seconds=1], [
+
+            function(c1, [ 0 ]),
+
+            function(c2, [ 0 ]),
+
+            function(f1(_), [ 1, 0 ]),
+
+            relation(G(_), [ 0, 0 ]),
+
+            relation(F(_,_), [
+             1, 0,
+             0, 0 ])
+    ]).
+
+    ============================== end of model ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatm4" onclick="gid(&#39;resultatm4&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+</br>
+
+<a href="ProverMace.html#" onclick="gid(&#39;examplemace&#39;).style.display=&#39;none&#39;;">hide example</a>
 </div>
 
     
@@ -366,86 +614,6 @@ gid('files').addEventListener('change', handleFileSelect, false);
 <script src="./ProverMace_files/prover9.wasm"></script>
 <script src="./ProverMace_files/mace4.wasm"></script> 
   
-<!-- Add new element JavaScript -->
-<script type="text/javascript">
-      var statusElement = document.getElementById('status');
-      var progressElement = document.getElementById('progress');
-      var spinnerElement = document.getElementById('spinner');
-
-      var Module = {
-        preRun: [],
-        postRun: [],
-        print: (function() {
-          var element = document.getElementById('output');
-          if (element) element.value = ''; // clear browser cache
-          return function(text) {
-            if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-            // These replacements are necessary if you render to raw HTML
-            //text = text.replace(/&/g, "&amp;");
-            //text = text.replace(/</g, "&lt;");
-            //text = text.replace(/>/g, "&gt;");
-            //text = text.replace('\n', '<br>', 'g');
-            console.log(text);
-            if (element) {
-              element.value += text + "\n";
-              element.scrollTop = element.scrollHeight; // focus on bottom
-            }
-          };
-        })(),
-        printErr: function(text) {
-          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-          console.error(text);
-        },
-        canvas: (function() {
-          var canvas = document.getElementById('canvas');
-
-          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
-          // application robust, you may want to override this behavior before shipping!
-          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-          canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
-
-          return canvas;
-        })(),
-        setStatus: function(text) {
-          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
-          if (text === Module.setStatus.last.text) return;
-          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-          var now = Date.now();
-          if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
-          Module.setStatus.last.time = now;
-          Module.setStatus.last.text = text;
-          if (m) {
-            text = m[1];
-            progressElement.value = parseInt(m[2])*100;
-            progressElement.max = parseInt(m[4])*100;
-            progressElement.hidden = false;
-            spinnerElement.hidden = false;
-          } else {
-            progressElement.value = null;
-            progressElement.max = null;
-            progressElement.hidden = true;
-            if (!text) spinnerElement.style.display = 'none';
-          }
-          statusElement.innerHTML = text;
-        },
-        totalDependencies: 0,
-        monitorRunDependencies: function(left) {
-          this.totalDependencies = Math.max(this.totalDependencies, left);
-          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
-        }
-      };
-      Module.setStatus('Downloading...');
-      window.onerror = function(event) {
-        // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
-        Module.setStatus('Exception thrown, see JavaScript console');
-        spinnerElement.style.display = 'none';
-        Module.setStatus = function(text) {
-          if (text) Module.printErr('[post-exception status] ' + text);
-        };
-      };
-</script>
-<script async="" type="text/javascript" src="prover9.js"></script>
-<script async="" type="text/javascript" src="mace4.js"></script>
 <!-- End Add new element JavaScript -->
 
 </body></html>
