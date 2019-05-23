@@ -212,7 +212,8 @@ end_of_list.
 		quantifier; Otter allows quantifiers to be omitted in a sequence of
 		quantified variables with the same quantifier. For example, 
 		Otter allows (all x y z p(x,y,z)), and Prover9 requires 
-		(all x all y all z p(x,y,z)).
+		(all x all y all z p(x,y,z)). 
+    <a href="https://www.cs.unm.edu/~mccune/mace4/manual/2009-11A/syntax.html">more information</a>
 	</I>
 </p>
 
@@ -287,6 +288,66 @@ end_of_list.
 </div>
 </br>
 
+<pre>
+formulas(sos).
+
+  a <-> b.
+  b <-> c.
+
+end_of_list.
+
+formulas(goals).
+
+  a <-> c.
+
+end_of_list.
+</pre>
+
+
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatp3&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatp3&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
+
+<div id="resultatp3" style="display: none">
+  <textarea id="output" rows="8">
+
+    ============================== SEARCH ================================
+
+    Goal is to show that a <-> c is a logical consequence of a <-> b and 
+    b <-> c
+
+    ======================================================================
+        
+    ============================== PROOF =================================
+
+    % Proof 1 at 1.00 (+ 3.00) seconds.
+    % Length of proof is 14.
+    % Level of proof is 5.
+    % Maximum clause weight is 2.000.
+    % Given clauses 7.
+
+    1 a <-> b # label(non_clause).  [assumption].
+    2 b <-> c # label(non_clause).  [assumption].
+    3 a <-> c # label(non_clause) # label(goal).  [goal].
+    4 -a | b.  [clausify(1)].
+    5 a | -b.  [clausify(1)].
+    6 -b | c.  [clausify(2)].
+    7 b | -c.  [clausify(2)].
+    8 a | c.  [deny(3)].
+    9 -a | -c.  [deny(3)].
+    10 a | b.  [resolve(8,b,7,b)].
+    11 b.  [resolve(10,a,4,a),merge(b)].
+    12 c.  [back_unit_del(6),unit_del(a,11)].
+    13 a.  [back_unit_del(5),unit_del(b,11)].
+    14 $F.  [back_unit_del(9),unit_del(a,13),unit_del(b,12)].
+
+    ============================== end of proof ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatp3" onclick="gid(&#39;resultatp3&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+</br>
 
 example in First-Order Logic
 <pre>
@@ -342,6 +403,56 @@ end_of_list.
     ============================== end of proof ==========================
   </textarea>
   <a href="ProverMace.html#resultatp2" onclick="gid(&#39;resultatp2&#39;).style.display=&#39;none&#39;;">hide resultat</a>
+</div>
+</br>
+
+<pre>
+formulas(sos).
+
+  all x all y (exists z ( p(x,y) & p(z,y))).
+
+end_of_list.
+
+formulas(goals).
+
+  all x all y p(x,y). 
+
+end_of_list.
+</pre>
+
+<button type="button" class="btn btn-default" onclick="gid(&#39;resultatp4&#39;).style.display=&#39;block&#39;; document.location=&#39;#resultatp4&#39;; " style=" 
+         width: 105px; height: 30px; text-align: center; padding: 0px 0px 1px 0px;  font-size: 12px;
+         line-height: 1.42; border-radius: 15px; 
+         color: #d029d3; margin-left: 15px;">show resultat</button></br>
+
+<div id="resultatp4" style="display: none">
+  <textarea id="output" rows="8">
+
+    ============================== SEARCH ================================
+
+    Goal is to show that all x all y p(x,y) is a logical consequence of 
+    all x all y (exists z ( p(x,y) & p(z,y)))
+    
+
+    ======================================================================
+        
+    ============================== PROOF =================================
+
+    % Proof 1 at 1.00 (+ 3.00) seconds.
+    % Length of proof is 5.
+    % Level of proof is 2.
+    % Maximum clause weight is 0.000.
+    % Given clauses 0.
+
+    1 (all x all y exists z (p(x,y) & p(z,y))) # label(non_clause).  [assumption].
+    2 (all x all y p(x,y)) # label(non_clause) # label(goal).  [goal].
+    3 -p(c1,c2).  [deny(2)].
+    4 p(x,y).  [clausify(1)].
+    6 $F.  [resolve(3,a,4,a)].
+
+    ============================== end of proof ==========================
+  </textarea>
+  <a href="ProverMace.html#resultatp4" onclick="gid(&#39;resultatp4&#39;).style.display=&#39;none&#39;;">hide resultat</a>
 </div>
 </br>
 </br>
