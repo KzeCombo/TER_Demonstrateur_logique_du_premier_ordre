@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en"><head itemscope=""><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
+<head itemscope="">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="shortcut icon" href="http://logictools.org/logo.png">
+  <link rel="shortcut icon" href="http://logictools.org/logo.png">
 
-<title>Mace4 & Prover9</title>
-<!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="./ProverMace_files/bootstrap.min.css">
+  <title>Mace4 & Prover9</title>
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="./ProverMace_files/bootstrap.min.css">
 
-<!-- Custom styles for this template -->
-<link href="./ProverMace_files/wdb.css" rel="stylesheet">
-<script async="" src="./ProverMace_files/analytics.js"></script>
+  <!-- Custom styles for this template -->
+  <link href="./ProverMace_files/wdb.css" rel="stylesheet">
+  <script async="" src="./ProverMace_files/analytics.js"></script>
 
-<script async="" type="text/javascript" src="./ProverMace_files/prover9.js"></script>
-<script async="" type="text/javascript" src="./ProverMace_files/mace4.js"></script>
-<script async="" type="text/javascript" src="./ProverMace_files/prover9.wasm"></script>
-<script async="" type="text/javascript" src="./ProverMace_files/mace4.wasm"></script>
+  <script type="text/javascript" src="./ProverMace_files/prover9.js"></script>
+  <script type="text/javascript" src="./ProverMace_files/mace4.js"></script>
+  <script type="text/javascript" src="./ProverMace_files/prover9.wasm"></script>
+  <script type="text/javascript" src="./ProverMace_files/mace4.wasm"></script>
 
 </head>
 
@@ -72,13 +74,16 @@
     <textarea class="form-control" id="propinput" style="height: 200px; width:100%; margin-bottom: 20px;">(a -&gt; b) &amp; a &amp; -b
      </textarea>
     </div>
-    <p>
-    </p><div style="display: inline-block;">
+    <div style="display: inline-block;">
         
     <!-------- solve the formula with Prover9 or Mace4  ----------- -->
+    
+    </br>
     <div>
-      <button class="btn btn-small btn-primary" style="width: 70px;" onclick="main()">Mace4</button>
-    	<button class="btn btn-small btn-primary" style="width: 70px;" onclick="run()">Prover9</button>
+      <form>
+         <button class="btn btn-small btn-primary" style="width: 70px;" type="submit" formaction="m4.html">Mace4</button>
+         <button class="btn btn-small btn-primary" style="width: 70px;" type="submit" formaction="p9.html">Pover9</button>
+      </form>
     </div>
     </br>
 
@@ -120,6 +125,7 @@
     </div>
 
   </form>
+</br>
 
     
 <h2>Result</h2>
@@ -733,10 +739,10 @@ gid('files').addEventListener('change', handleFileSelect, false);
 
 
 <!--	Use Prover9 or Mace4 -->
-<script src="./ProverMace_files/prover9.js"></script>
-<script src="./ProverMace_files/mace4.js"></script>
-<script src="./ProverMace_files/prover9.wasm"></script>
-<script src="./ProverMace_files/mace4.wasm"></script> 
+<script async src="./ProverMace_files/prover9.js"></script>
+<script async src="./ProverMace_files/mace4.js"></script>
+<script async src="./ProverMace_files/prover9.wasm"></script>
+<script async src="./ProverMace_files/mace4.wasm"></script> 
   
 <!-- End Add new element JavaScript -->
 
